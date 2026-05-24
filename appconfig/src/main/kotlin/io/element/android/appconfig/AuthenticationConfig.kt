@@ -9,10 +9,10 @@
 package io.element.android.appconfig
 
 object AuthenticationConfig {
-    // Alpha local Synapse — host LAN IP works from AVD, LDPlayer, and physical
-    // device on same Wi-Fi. Synapse's `public_baseurl` must match this exact URL,
-    // because the Rust SDK follows the base_url returned by /.well-known/matrix/client.
-    const val MATRIX_ORG_URL = "http://192.168.1.65:8008"
+    // Alpha production Synapse — chat.alhpa.store, served via Caddy + Let's Encrypt
+    // on 43.98.199.26. The HTTPS URL means the APK works on any network (Wi-Fi /
+    // 4G / 5G) without depending on the developer's PC being on the LAN.
+    const val MATRIX_ORG_URL = "https://chat.alhpa.store"
 
     /**
      * URL with some docs that explain what's sliding sync and how to add it to your home server.
