@@ -10,4 +10,5 @@
     <string name="screen_onboarding_alpha_message">"隨時隨地，與你的團隊保持聯繫。"</string>
     <string name="screen_alpha_signin_title">"歡迎使用 Alpha"</string>
     <string name="screen_alpha_signin_subtitle">"小圈子的私密群聊 — 成員邀請制，永不丟失。"</string>
+    <string name="screen_alpha_login_signup_link">"還沒有帳號？立即註冊"</string>
 </resources>

@@ -35,6 +35,7 @@ import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalAutofillManager
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
@@ -61,6 +62,7 @@ import io.element.android.libraries.designsystem.preview.PreviewsDayNight
 import io.element.android.libraries.designsystem.theme.components.Button
 import io.element.android.libraries.designsystem.theme.components.Icon
 import io.element.android.libraries.designsystem.theme.components.Scaffold
+import io.element.android.libraries.designsystem.theme.components.TextButton
 import io.element.android.libraries.designsystem.theme.components.TextField
 import io.element.android.libraries.designsystem.theme.components.TopAppBar
 import io.element.android.libraries.testtags.TestTags
@@ -122,15 +124,14 @@ fun LoginPasswordView(
                 .verticalScroll(state = scrollState)
                 .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
         ) {
-            // Title
+            // Alpha-branded heading. Element's default puts the homeserver URL in
+            // the title — we already hide that on ConfirmAccountProvider, so do the
+            // same here for consistency.
             IconTitleSubtitleMolecule(
                 modifier = Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp),
                 iconStyle = BigIcon.Style.Default(CompoundIcons.UserProfileSolid()),
-                title = stringResource(
-                    id = R.string.screen_account_provider_signin_title,
-                    state.accountProvider.title
-                ),
-                subTitle = stringResource(id = R.string.screen_login_subtitle)
+                title = stringResource(id = R.string.screen_alpha_signin_title),
+                subTitle = stringResource(id = R.string.screen_alpha_signin_subtitle),
             )
             Spacer(Modifier.height(40.dp))
             LoginForm(
@@ -142,7 +143,11 @@ fun LoginPasswordView(
             Spacer(Modifier.height(24.dp))
             // Flexible spacing to keep the submit button at the bottom
             Spacer(modifier = Modifier.weight(1f))
-            // Submit
+            // Submit + "Sign up" link below the Continue button. The link opens
+            // chat.alhpa.store's web registration page in the system browser,
+            // because the Alpha APK doesn't host the email-3PID flow itself yet.
+            val uriHandler = LocalUriHandler.current
+            val signupUrl = stringResource(id = R.string.screen_alpha_signup_url)
             Box(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -156,6 +161,12 @@ fun LoginPasswordView(
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag(TestTags.loginContinue)
+                    )
+                    TextButton(
+                        text = stringResource(id = R.string.screen_alpha_login_signup_link),
+                        onClick = { uriHandler.openUri(signupUrl) },
+                        enabled = !isLoading,
+                        modifier = Modifier.fillMaxWidth(),
                     )
                     Spacer(modifier = Modifier.height(48.dp))
                 }
